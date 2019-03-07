@@ -19,13 +19,13 @@ public class MessageController {
             Runnable storage = new Storage(output, storageManager);
             executorService.execute(storage);
         } else {
-            Runnable cloud = new Cloud(output, connectionManager, numbers.get(numbers.size() - 1));
+            Runnable cloud = new Cloud(output, connectionManager, numbers.size() - 1);
             executorService.execute(cloud);
         }
 
         synchronized (output) {
             try {
-                output.wait();
+                output.wait(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -33,6 +33,6 @@ public class MessageController {
         numbers.addAll(output);
         notificationCenter.setDataLoaded(true);
         if(!fromCache)
-            storageManager.save(numbers.get(numbers.size() - 1));
+            storageManager.save(numbers.size() - 1);
     }
 }

@@ -7,7 +7,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 public class MainActivity extends AppCompatActivity implements NotificationCenter.Observer {
-
+    LinearLayout linearLayout;
     final MessageController messageController = new MessageController();
     final NotificationCenter notificationCenter = NotificationCenter.getInstance();
 
@@ -18,12 +18,12 @@ public class MainActivity extends AppCompatActivity implements NotificationCente
         setContentView(R.layout.activity_main);
         notificationCenter.registerObserver(this);
         final LinearLayout linearLayout = findViewById(R.id.linearLayout);
-
     }
 
     public void onDestroy () {
         notificationCenter.unregisterObserver(this);
         super.onDestroy();
+        linearLayout = findViewById(R.id.linearLayout);
     }
 
     public void clearMethod(View V) {

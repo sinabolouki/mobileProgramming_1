@@ -15,7 +15,13 @@ public class Cloud implements Runnable {
 
     @Override
     public void run() {
-        output = connectionManager.load(n);
-        output.notify();
+        synchronized (output) {
+            output = connectionManager.load(n);
+            try {
+                output.notify();
+            } catch (Exception e) {
+
+            }
+        }
     }
 }
