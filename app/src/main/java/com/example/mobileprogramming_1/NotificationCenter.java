@@ -13,7 +13,7 @@ public class NotificationCenter {
 
     }
 
-    public NotificationCenter getInstance() {
+    public static NotificationCenter getInstance() {
         if (notificationCenterInstance == null)
             notificationCenterInstance = new NotificationCenter();
         return notificationCenterInstance;
