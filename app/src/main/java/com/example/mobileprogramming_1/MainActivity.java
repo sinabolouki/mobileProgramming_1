@@ -7,25 +7,29 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 public class MainActivity extends AppCompatActivity {
+    final LinearLayout linearLayout = findViewById(R.id.linearLayout);
+    final MessageController messageController = new MessageController();
 
-    final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
 
+
+    }
+
+    public void clearMethod(View V) {
         final Button clearButton = (Button) findViewById(R.id.clear_button);
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clearMethode(v);
+                linearLayout.removeAllViews();
             }
         });
     }
 
-    public void clearMethode(View V) {
-        linearLayout.removeAllViews();
+    public void getAction() {
+        messageController.fetch(false);
     }
 }
