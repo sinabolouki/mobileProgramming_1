@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void getAction() {
+    public void getAction(View v) {
         messageController.fetch(false);
     }
 }
