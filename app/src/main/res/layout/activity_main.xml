@@ -22,7 +22,7 @@
         app:layout_constraintStart_toStartOf="parent"></LinearLayout>
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/clear_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -36,7 +36,7 @@
         app:layout_constraintVertical_bias="0.804" />
 
     <Button
-        android:id="@+id/button6"
+        android:id="@+id/refresh_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -47,13 +47,13 @@
         android:layout_marginBottom="16dp"
         android:text="@string/refresh_button"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintEnd_toStartOf="@+id/button8"
-        app:layout_constraintStart_toEndOf="@+id/button4"
+        app:layout_constraintEnd_toStartOf="@+id/get_button"
+        app:layout_constraintStart_toEndOf="@+id/clear_button"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.804" />
 
     <Button
-        android:id="@+id/button8"
+        android:id="@+id/get_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
