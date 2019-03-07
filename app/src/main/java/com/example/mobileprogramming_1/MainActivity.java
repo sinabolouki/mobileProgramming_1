@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements NotificationCente
     }
 
     public void getAction(View v) {
-        messageController.fetch(false);
+        messageController.fetch(true);
     }
 
     @Override

@@ -14,7 +14,13 @@ public class Storage implements Runnable {
 
     @Override
     public void run() {
-        output = storageManager.load();
-        output.notify();
+        synchronized (output) {
+            output = storageManager.load();
+            try {
+                output.notify();
+            } catch (Exception e) {
+
+            }
+        }
     }
 }
