@@ -22,6 +22,7 @@ public class StorageManager {
     }
 
     public ArrayList<Integer> load () {
+        System.out.println("storage load called");
         FileReader reader = null;
         try {
             reader = new FileReader(storage);
@@ -40,6 +41,7 @@ public class StorageManager {
         for ( int i = n + 1 ; i <= n + 10 ; i++) {
             loadResult.add(i);
         }
+        System.out.println(loadResult.size());
         return loadResult;
     }
 

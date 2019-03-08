@@ -31,7 +31,8 @@ public class MessageController {
             }
         }
         numbers.addAll(output);
-        notificationCenter.setDataLoaded(true);
+        System.out.println("numbers0 " + numbers.size());
+        notificationCenter.DataLoaded(numbers);
         if(!fromCache)
             storageManager.save(numbers.size() - 1);
     }

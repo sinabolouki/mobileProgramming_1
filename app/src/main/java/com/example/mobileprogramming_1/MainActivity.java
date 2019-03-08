@@ -20,23 +20,10 @@ public class MainActivity extends AppCompatActivity implements NotificationCente
     File file = new File ("storage.txt");
     FileReader fileReader;
 
-    {
-        try {
-            fileReader = new FileReader(file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
+
 
     int maxNumber = 0;
 
-    {
-        try {
-            maxNumber = fileReader != null ? fileReader.read() : 0;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     final MessageController messageController = new MessageController();
     final NotificationCenter notificationCenter = NotificationCenter.getInstance();
@@ -48,6 +35,24 @@ public class MainActivity extends AppCompatActivity implements NotificationCente
         setContentView(R.layout.activity_main);
         notificationCenter.registerObserver(this);
         final LinearLayout linearLayout = findViewById(R.id.linearLayout);
+        {
+            try {
+                fileReader = new FileReader(file);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        if (fileReader == null ) {
+            System.out.println("null");
+        }
+        {
+            try {
+                maxNumber = fileReader != null ? fileReader.read() : 0;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     public void onDestroy () {
@@ -58,12 +63,15 @@ public class MainActivity extends AppCompatActivity implements NotificationCente
 
     public void refreshAction (View v) {
        if (shownNumber >= maxNumber) {
-
+           System.out.println(shownNumber);
+           System.out.println(maxNumber);
        } else {
            StringBuilder stringBuilder = new StringBuilder(shownNumber);
            for (int i = shownNumber + 1 ; i <= shownNumber + 10 ; i ++) {
                stringBuilder.append(i);
+               stringBuilder.append("\n");
            }
+
            shownNumber += 10;
            LinearLayout linearLayout = findViewById(R.id.linearLayout);
            TextView textView = findViewById(R.id.text_view_id);
@@ -87,7 +95,15 @@ public class MainActivity extends AppCompatActivity implements NotificationCente
     }
 
     @Override
-    public void update() {
-
+    public void update(ArrayList<Integer> numbers) {
+        final LinearLayout linearLayout = findViewById(R.id.linearLayout);
+        TextView textView = findViewById(R.id.text_view_id);
+        System.out.println("numbers"+numbers.size());
+        StringBuilder stringBuilder = new StringBuilder(textView.getText());
+        for (Integer integer : numbers) {
+            stringBuilder.append(integer);
+            stringBuilder.append("\n");
+        }
+        textView.setText(stringBuilder.toString());
     }
 }
