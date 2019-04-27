@@ -2,10 +2,11 @@ package com.example.mobileprogramming_1;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,14 +15,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.Formatter;
-import java.util.Scanner;
+
 
 public class MainActivity extends Activity implements NotificationCenter.Observer {
     LinearLayout linearLayout;
@@ -76,43 +74,61 @@ public class MainActivity extends Activity implements NotificationCenter.Observe
     }
 
     public void refreshAction (View v) {
-       if (shownNumber >= maxNumber) {
-
-       } else {
-           StringBuilder stringBuilder = new StringBuilder(shownNumber);
-           for (int i = shownNumber + 1 ; i <= shownNumber + 10 ; i ++) {
-               stringBuilder.append(i);
+        linearLayout.removeAllViews();
+        String receiveString;
+        try {
+            while ((receiveString = bufferedReader.readLine()) != null) {
+                maxNumber = Integer.valueOf(receiveString);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (shownNumber <= maxNumber) {
+            Log.i(String.valueOf(shownNumber), String.valueOf(maxNumber));
+           for (int i = shownNumber + 1 ; i <= maxNumber ; i++) {
+               TextView textView = new TextView(this);
+               textView.setText(String.valueOf(i));
+               textView.setId(i);
+               textView.setHeight(50);
+               textView.setWidth(100);
+               textView.setTextSize(10);
+               textView.setGravity(Gravity.CENTER);
+               linearLayout.addView(textView);
            }
-           shownNumber += 10;
-           LinearLayout linearLayout = findViewById(R.id.linearLayout);
-           TextView textView = findViewById(R.id.text_view_id);
-           textView.setText(stringBuilder.toString());
-           linearLayout.addView(textView);
-       }
+            try {
+                outputStreamWriter.write(String.valueOf(maxNumber));
+                outputStreamWriter.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+           shownNumber = maxNumber;
+        }
     }
     public void clearMethod(View V) {
-        final LinearLayout linearLayout = findViewById(R.id.linearLayout);
-        final Button clearButton = (Button) findViewById(R.id.clear_button);
-        clearButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                linearLayout.removeAllViews();
-            }
-        });
+        shownNumber = 0;
+        linearLayout.removeAllViews();
     }
 
     public void getAction(View v) {
         messageController.fetch(true);
     }
 
+
     @Override
     public void update(ArrayList<Integer> data) {
-        linearLayout.removeView(dataTextView);
-        dataTextView.setText("");
+        if(shownNumber == 0)
+            linearLayout.removeAllViews();
         Log.i("update", "called");
-        for (Integer number : data) {
-            dataTextView.append(number + " ");
+        for (int i = data.size() - 10 ; i < data.size() ; i++) {
+            TextView dataTextView = new TextView(this);
+            dataTextView.setText(String.valueOf(data.get(i)));
+            dataTextView.setId(data.get(i));
+            dataTextView.setHeight(50);
+            dataTextView.setWidth(100);
+            dataTextView.setTextSize(10);
+            dataTextView.setGravity(Gravity.CENTER);
+            linearLayout.addView(dataTextView);
         }
-        linearLayout.addView(dataTextView);
+        shownNumber += 10;
     }
 }
