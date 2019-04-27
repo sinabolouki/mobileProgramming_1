@@ -1,5 +1,6 @@
 package com.example.mobileprogramming_1;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,38 +9,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NotificationCenter.Observer {
     LinearLayout linearLayout;
-
     int shownNumber = 0;
-    File file = new File ("storage.txt");
-    FileReader fileReader;
-
-    {
-        try {
-            fileReader = new FileReader(file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
+    String fileName = "storage.txt";
     int maxNumber = 0;
-
-    {
-        try {
-            maxNumber = fileReader != null ? fileReader.read() : 0;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    final MessageController messageController = new MessageController();
     final NotificationCenter notificationCenter = NotificationCenter.getInstance();
+    FileOutputStream fileOutputStream;
+    FileInputStream fileInputStream;
+    MessageController messageController;
 
 
     @Override
@@ -47,13 +32,43 @@ public class MainActivity extends AppCompatActivity implements NotificationCente
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         notificationCenter.registerObserver(this);
-        final LinearLayout linearLayout = findViewById(R.id.linearLayout);
+        linearLayout = findViewById(R.id.linearLayout);
+        File file = new File(fileName);
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            fileOutputStream = openFileOutput(fileName, Context.MODE_PRIVATE);
+            fileOutputStream.write(0);
+            fileInputStream = openFileInput(fileName);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        messageController = new MessageController(fileInputStream, fileOutputStream);
     }
 
     public void onDestroy () {
         notificationCenter.unregisterObserver(this);
         super.onDestroy();
-        linearLayout = findViewById(R.id.linearLayout);
+        try {
+            fileOutputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try {
+            fileOutputStream = openFileOutput(fileName, Context.MODE_PRIVATE);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void refreshAction (View v) {

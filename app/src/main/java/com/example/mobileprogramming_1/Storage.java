@@ -1,6 +1,8 @@
 package com.example.mobileprogramming_1;
 
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 public class Storage implements Runnable {
@@ -16,11 +18,16 @@ public class Storage implements Runnable {
     public void run() {
         synchronized (output) {
             output = storageManager.load();
+            Log.i(output.toString(), "Salam");
             try {
-                output.notify();
+                output.notifyAll();
             } catch (Exception e) {
 
             }
         }
+    }
+
+    public ArrayList<Integer> getOutput() {
+        return output;
     }
 }
