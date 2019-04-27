@@ -19,13 +19,13 @@ public class NotificationCenter {
         return notificationCenterInstance;
     }
     public interface Observer {
-        public void update();
+        public void update(ArrayList<Integer> data);
     }
 
-    public void setDataLoaded (boolean dataLoaded) {
+    public void setDataLoaded (boolean dataLoaded, ArrayList<Integer> data) {
         this.dataLoaded = dataLoaded;
         for (Observer observer : observers) {
-            observer.update();
+            observer.update(data);
         }
     }
 

@@ -44,7 +44,7 @@ public class MessageController {
         }
         numbers.addAll(((Storage) storage).getOutput());
         Log.i(numbers.toString(), "Message");
-        notificationCenter.setDataLoaded(true);
+        notificationCenter.setDataLoaded(true, numbers);
         if(!fromCache)
             storageManager.save(numbers.size() - 1);
     }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -32,15 +33,18 @@ public class MainActivity extends Activity implements NotificationCenter.Observe
     FileInputStream fileInputStream;
     BufferedReader bufferedReader;
     MessageController messageController;
+    TextView dataTextView ;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.i("print", "created");
         notificationCenter.registerObserver(this);
         linearLayout = findViewById(R.id.linearLayout);
-        File file = new File(fileName);
+        dataTextView = new TextView(this);
+        File file = new File(this.getFilesDir(), fileName);
         try {
             file.createNewFile();
         } catch (IOException e) {
@@ -102,7 +106,13 @@ public class MainActivity extends Activity implements NotificationCenter.Observe
     }
 
     @Override
-    public void update() {
-
+    public void update(ArrayList<Integer> data) {
+        linearLayout.removeView(dataTextView);
+        dataTextView.setText("");
+        Log.i("update", "called");
+        for (Integer number : data) {
+            dataTextView.append(number + " ");
+        }
+        linearLayout.addView(dataTextView);
     }
 }
