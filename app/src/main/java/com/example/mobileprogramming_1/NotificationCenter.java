@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class NotificationCenter {
     private ArrayList<Observer> observers = new ArrayList<>();
+    private boolean dataLoaded = false;
     private static NotificationCenter notificationCenterInstance = null;
 
     private NotificationCenter () {
@@ -18,12 +19,13 @@ public class NotificationCenter {
         return notificationCenterInstance;
     }
     public interface Observer {
-        public void update(ArrayList<Integer> numbers);
+        public void update();
     }
 
-    public void DataLoaded(ArrayList<Integer> numbers) {
+    public void setDataLoaded (boolean dataLoaded) {
+        this.dataLoaded = dataLoaded;
         for (Observer observer : observers) {
-            observer.update(numbers);
+            observer.update();
         }
     }
 

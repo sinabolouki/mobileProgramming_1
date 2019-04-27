@@ -3,9 +3,13 @@ package com.example.mobileprogramming_1;
 
 import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Formatter;
+import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -16,9 +20,9 @@ public class MessageController {
     NotificationCenter notificationCenter = NotificationCenter.getInstance();
     ExecutorService executorService = Executors.newFixedThreadPool(5);
 
-    public MessageController(FileInputStream fileInputStream, FileOutputStream fileOutputStream) {
-        storageManager.setFileInputStream(fileInputStream);
-        storageManager.setFileOutputStream(fileOutputStream);
+    public MessageController(OutputStreamWriter outputStreamWriter, BufferedReader bufferedReader) {
+        storageManager.setBufferedReader(bufferedReader);
+        storageManager.setOutputStreamWriter(outputStreamWriter);
     }
 
     public void fetch(boolean fromCache) {
@@ -38,7 +42,6 @@ public class MessageController {
                 e.printStackTrace();
             }
         }
-
         numbers.addAll(((Storage) storage).getOutput());
         Log.i(numbers.toString(), "Message");
         notificationCenter.setDataLoaded(true);
