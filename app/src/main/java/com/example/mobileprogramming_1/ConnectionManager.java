@@ -5,6 +5,7 @@ import java.util.ArrayList;
 class ConnectionManager {
 
     public ArrayList<Integer> load (int n) {
+        System.out.println("connection load called");
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
